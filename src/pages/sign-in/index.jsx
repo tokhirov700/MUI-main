@@ -1,11 +1,12 @@
 import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { TextField, Button, Box } from "@mui/material";
+import { TextField, Button, Box, Card, CardContent, Typography } from "@mui/material";
 import { ToastContainer } from "react-toastify";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { signInValidationSchema } from "@utilis/validations";
 import { Notification } from "@utilis/notification";
 import { auth } from "@service";
+
 const Index = () => {
    const navigate = useNavigate();
    const initialValues = {
@@ -16,7 +17,7 @@ const Index = () => {
    const handleSumbit = async (value) => {
       try {
          const response = await auth.sign_in(value);
-         let access_token = response?.data?.data.tokens.access_token;
+         const access_token = response?.data?.data.tokens.access_token;
          localStorage.setItem("access_token", access_token);
          if (response.status === 201) {
             navigate("/admin-layout");
@@ -31,7 +32,7 @@ const Index = () => {
    };
 
    return (
-      <div className="container">
+      <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
          <ToastContainer
             position="top-right"
             autoClose={5000}
@@ -43,81 +44,68 @@ const Index = () => {
             draggable
             pauseOnHover
             theme="light"
-            transition:Bouncer
-         ></ToastContainer>
-         <div className="row">
-            <div className="col-3 offset-4 mt-5">
-               <div className="card">
-                  <div className="card-header">
-                     <h1 className="text-center text-2xl">Sign In</h1>
-                  </div>
-                  <div className="card-body">
-                     <Formik
-                        onSubmit={handleSumbit}
-                        initialValues={initialValues}
-                        validationSchema={signInValidationSchema}
-                     >
-                        <Form id="sigin-in">
-                           <Field
-                              type="text"
-                              name="phone_number"
-                              fullWidth
-                              margin="normal"
-                              label="Phone Number"
-                              as={TextField}
-                              helperText={
-                                 <ErrorMessage
-                                    name="phone_number"
-                                    component="p"
-                                    className="text-red-500"
-                                 />
-                              }
-                           />
-                           <Field
-                              type="password"
-                              name="password"
-                              margin="normal"
-                              fullWidth
-                              label="password"
-                              as={TextField}
-                              helperText={
-                                 <ErrorMessage
-                                    name="password"
-                                    component="p"
-                                    className="text-red-500"
-                                 />
-                              }
-                           />
-                        </Form>
-                     </Formik>
-                     <Box>
-                        <p className="text-center text-sm ">
-                           Don’t have an account?
-                        </p>
-                        <NavLink
-                           to="/sign-up"
-                           className="my-3.5 text-sm text-start"
-                           color="success"
-                        >
-                           Sign Up here
-                        </NavLink>
-                     </Box>
-                     <Button
-                        variant="contained"
+         />
+         <Card sx={{ width: 400, padding: 2 }}>
+            <CardContent>
+               <Typography variant="h4" align="center" gutterBottom>
+                  Sign In
+               </Typography>
+               <Formik
+                  onSubmit={handleSumbit}
+                  initialValues={initialValues}
+                  validationSchema={signInValidationSchema}
+               >
+                  <Form id="sign-in">
+                     <Field
+                        type="text"
+                        name="phone_number"
                         fullWidth
-                        className="mt-3"
-                        color="success"
-                        form="sigin-in"
+                        margin="normal"
+                        label="Phone Number"
+                        as={TextField}
+                        helperText={
+                           <ErrorMessage
+                              name="phone_number"
+                              component="p"
+                              style={{ color: "red" }}
+                           />
+                        }
+                     />
+                     <Field
+                        type="password"
+                        name="password"
+                        fullWidth
+                        margin="normal"
+                        label="Password"
+                        as={TextField}
+                        helperText={
+                           <ErrorMessage
+                              name="password"
+                              component="p"
+                              style={{ color: "red" }}
+                           />
+                        }
+                     />
+                     <Button
                         type="submit"
-                        onClick={handleSumbit}
+                        variant="contained"
+                        color="success"
+                        fullWidth
+                        sx={{ mt: 3 }}
                      >
                         Sign In
                      </Button>
-                  </div>
-               </div>
-            </div>
-         </div>
-      </div>
+                  </Form>
+               </Formik>
+               <Box mt={2} textAlign="center">
+                  <Typography variant="body2">Don’t have an account?</Typography>
+                  <NavLink to="/sign-up" style={{ color: "#4caf50", textDecoration: "none" }}>
+                     Sign Up here
+                  </NavLink>
+               </Box>
+            </CardContent>
+         </Card>
+      </Box>
    );
 };
 
