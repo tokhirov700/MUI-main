@@ -9,6 +9,8 @@ import CourseModal from "./course-modal";
 import CourseTable from "./course-table";
 import CategoryTable from "./category-table";
 import CategoryModal from "./category-modal";
+import SubcategoryModal from "./subcategory-modal";
+import SubcategoryTable from "./subcategory-tabel";
 export {
    TeacherTable,
    TeacherModal,
@@ -21,4 +23,6 @@ export {
    CourseTable,
    CategoryTable,
    CategoryModal,
+   SubcategoryTable,
+   SubcategoryModal,
 };

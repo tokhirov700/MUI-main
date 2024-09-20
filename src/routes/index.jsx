@@ -17,6 +17,7 @@ import {
    AdminGroup,
    SignUp,
    Category,
+   Subcategory,
 } from "@pages";
 
 const Index = () => {
@@ -31,6 +32,7 @@ const Index = () => {
                <Route path="admin-group" element={<AdminGroup />} />
                <Route path="course" element={<Course />} />
                <Route path="category" element={<Category />} />
+               <Route path="subcategory" element={<Subcategory />} />
             </Route>
             <Route path="student-layout" element={<StudentLayout />}>
                <Route index element={<Group />} />

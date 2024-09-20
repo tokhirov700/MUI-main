@@ -9,6 +9,7 @@ import Course from "../pages/course";
 import AdminGroup from "../pages/admin-group";
 import SignUp from "../pages/sign-up";
 import Category from "../pages/category";
+import Subcategory from "../pages/sub-category";
 export {
    AdminLayout,
    SignIn,
@@ -21,4 +22,5 @@ export {
    AdminGroup,
    SignUp,
    Category,
+   Subcategory,
 };
