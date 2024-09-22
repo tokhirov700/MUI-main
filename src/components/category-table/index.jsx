@@ -23,7 +23,7 @@ export default function BasicTable({ categories }) {
 
    function gotoSub(id) {
       localStorage.setItem('parentID', id);
-      navigate('/admin-layout/subcategory');
+      navigate('/admin-layout/sub-category');
    }
 
    const handleClose = () => {

@@ -10,6 +10,7 @@ import AdminGroup from "../pages/admin-group";
 import SignUp from "../pages/sign-up";
 import Category from "../pages/category";
 import Subcategory from "../pages/sub-category";
+import Brand from "../pages/brand";
 export {
    AdminLayout,
    SignIn,
@@ -23,4 +24,5 @@ export {
    SignUp,
    Category,
    Subcategory,
+   Brand,
 };

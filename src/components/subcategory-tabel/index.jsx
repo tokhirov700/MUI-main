@@ -61,7 +61,7 @@ export default function SubcategoryTable({ subcategories }) {
                         </TableCell>
                      </TableRow>
                   ))
-               ) :ork (
+               ) : (
                   <TableRow>
                      <TableCell colSpan={3} align="center">
                         Subcategory not found
