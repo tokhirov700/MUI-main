@@ -7,67 +7,67 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Button } from "@mui/material";
-import { category } from "@service";
 import { useState } from "react";
 import { SubcategoryModal } from "@components";
+import { subcategory } from "@service";
 
-export default function SubcategoryTable({ subcategories, categories }) {
+export default function SubcategoryTable({ subcategories }) {
    const [open, setOpen] = useState(false);
-   const [update, setUpdate] = useState({});
+   const [update, setUpdate] = useState({}); 
    
    const handleClose = () => {
-      setOpen(false);
+      setOpen(false);  
    };
 
    const editSubcategory = (item) => () => {
-      setOpen(true);
-      setUpdate(item);
+      setUpdate(item);  
+      setOpen(true);    
    };
 
-   const deleteSubcategory = (id) => () => {
-      category.delete(id).then(() => window.location.reload());
-   };
+   const deletesubCategory = (id) => async () => {
+         await subcategory.delete(id);
+         window.location.reload();
+      }
 
    return (
       <TableContainer component={Paper}>
-         <SubcategoryModal open={open} handleClose={handleClose} update={update} categories={categories} />
-         <Table sx={{ minWidth: 650 }} aria-label="simple table">
+         <SubcategoryModal open={open} handleClose={handleClose} update={update} />
+         <Table sx={{ minWidth: 650 }} aria-label="subcategory table">
             <TableHead>
                <TableRow>
                   <TableCell align="center">T/R</TableCell>
                   <TableCell align="center">Subcategory Name</TableCell>
-                  <TableCell align="center">Category Name</TableCell>
                   <TableCell align="center">Actions</TableCell>
                </TableRow>
             </TableHead>
             <TableBody>
-               {subcategories?.map((row, index) => (
-                  <TableRow key={row.id} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-                     <TableCell align="center">{index + 1}</TableCell>
-                     <TableCell align="center">{row.name}</TableCell>
-                     <TableCell align="center">
-                        {categories.find((category) => category.id === row.categoryId)?.name || "Unknown"}
-                     </TableCell>
-                     <TableCell align="center" className="flex gap-3">
-                        <Button
-                           variant="contained"
-                           color="primary"
-                           className="w-[80px]"
-                           onClick={editSubcategory(row)}
-                        >
-                           Edit
-                        </Button>
-                        <Button
-                           variant="contained"
-                           color="error"
-                           className="w-[80px]"
-                           onClick={deleteSubcategory(row.id)}
-                        >
-                           Delete
-                        </Button>
+               {subcategories && subcategories.length > 0 ? (
+                  subcategories.map((row, index) => (
+                     <TableRow key={row.id}>
+                        <TableCell align="center">{index + 1}</TableCell>
+                        <TableCell align="center">{row.name}</TableCell>
+                        <TableCell align="center">
+                           <Button variant="contained" color="primary" onClick={editSubcategory(row)}>
+                              Edit
+                           </Button>
+                           <Button
+                              variant="contained"
+                              color="error"
+                              className="w-[80px]"
+                              onClick={deletesubCategory(row.id)}
+                           >
+                              Delete
+                           </Button>
+                        </TableCell>
+                     </TableRow>
+                  ))
+               ) :ork (
+                  <TableRow>
+                     <TableCell colSpan={3} align="center">
+                        Subcategory not found
                      </TableCell>
                   </TableRow>
-               ))}
+               )}
             </TableBody>
          </Table>
       </TableContainer>

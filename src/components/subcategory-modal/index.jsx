@@ -1,11 +1,8 @@
 import * as React from "react";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Modal from "@mui/material/Modal";
-import { FormControl, TextField } from "@mui/material";
-import { ErrorMessage, Field, Form, Formik } from "formik";
+import { Box, Button, Modal, FormControl, TextField } from "@mui/material";
+import { Formik, Field, Form, ErrorMessage } from "formik";
 import { categoryValidationSchema } from "@utilis/validations";
-import { category } from "@service";
+import { subcategory } from "@service";
 
 const style = {
    position: "absolute",
@@ -19,24 +16,23 @@ const style = {
    p: 4,
 };
 
-export default function SubcategoryModal({ open, handleClose, update }) {
+export default function SubcategoryModal({ open, handleClose, update, parentID }) {
    const initialValues = {
-      name: update?.name || "",
+      name: update?.name || "", 
    };
 
-   const handleSubmit = async (value) => {
+   const handleSubmit = async (values) => {
       try {
          if (update?.id) {
-            await category.update(update.id, { name: value.name });
-            handleClose();
-            window.location.reload();
+            await subcategory.update(update.id, { name: values.name });
          } else {
-            await category.create({ name: value.name });
-            handleClose();
-            window.location.reload();
+            
+            await subcategory.create({ name: values.name, categoryId: parentID });
          }
+         handleClose(); 
+         window.location.reload(); 
       } catch (error) {
-         console.log(error);
+         console.log("Xatolik:", error);
       }
    };
 
@@ -44,10 +40,10 @@ export default function SubcategoryModal({ open, handleClose, update }) {
       <Modal open={open} onClose={handleClose}>
          <Box sx={style}>
             <Formik
-               onSubmit={handleSubmit}
                initialValues={initialValues}
                validationSchema={categoryValidationSchema}
-               enableReinitialize
+               onSubmit={handleSubmit}
+               enableReinitialize 
             >
                <Form>
                   <FormControl fullWidth className="flex flex-col gap-3">
@@ -57,11 +53,7 @@ export default function SubcategoryModal({ open, handleClose, update }) {
                         as={TextField}
                         fullWidth
                      />
-                     <ErrorMessage
-                        name="name"
-                        component="p"
-                        className="text-red-500"
-                     />
+                     <ErrorMessage name="name" component="p" className="text-red-500" />
 
                      <Button type="submit" variant="contained" color="primary">
                         Save
